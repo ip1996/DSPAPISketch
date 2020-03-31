@@ -1,0 +1,14 @@
+Simple linear pipeline workflow:
+The node0 gets the data from a socket communication, will process the data in the FillAudioChannel function where it will write the data which was got from the communication to the node1's channel
+The node1 will get generated source channel from the scheduler, which is the first channel of the pipeline and will read wrapped data from the channel by the FilterAudio callback function in which it will write the data to the next channel which is contained by node2
+The node2 will get generated channel from the scheduler, will give the reference to node1, and will read the wrapped data in RefineAudio callback function and write the data to node3's channel
+The node3 will get generated channel from the scheduler, will give the reference to node2, and will read the wrapped data in TransformAudio callback function and write the data to a sink channel which was got from node4
+The node4 will get generated sink channel from the scheduler, will give the reference to node3, will read the raw data from the channel and write it to a database
+
+Questions??
+Where should the callback call be placed? (In the channel, in the scheduler)
+Can a channel be on the sink side of multiple nodes? (in this structure I don't see where it fits)
+
+#TODO
+stateful/stateless methodology in the API
+cronological data processing support in the API
